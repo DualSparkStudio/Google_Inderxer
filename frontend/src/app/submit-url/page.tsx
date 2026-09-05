@@ -26,6 +26,7 @@ function parseProviderResults(message: string | null): Array<{
 
   const PROVIDER_LABELS: Record<string, string> = {
     google_bridge: 'Google (Bridge)',
+    reddit_signal: 'Reddit (Real-Time Signal)',
     twitter_signal: 'Twitter / X (Real-Time Signal)',
     google_indexing: 'Google (Direct)',
     ping_discovery: 'Bing / Yandex (IndexNow)',
@@ -71,6 +72,7 @@ function parseProviderResults(message: string | null): Array<{
       success = true;
       // Short friendly summary
       if (key === 'google_bridge') summary = 'Submitted to Google — bridge page created';
+      else if (key === 'reddit_signal') summary = 'Post published to Reddit — Google firehose notified';
       else if (key === 'twitter_signal') summary = 'Tweet posted — Google real-time firehose notified';
       else if (key === 'ping_discovery') summary = 'Accepted by Bing & Yandex';
       else if (key === 'websub') {
