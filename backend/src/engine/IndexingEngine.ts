@@ -21,12 +21,14 @@ import { SitemapPingProvider } from './providers/SitemapPingProvider';
 import { BingUrlSubmissionProvider } from './providers/BingUrlSubmissionProvider';
 import { WebSubProvider } from './providers/WebSubProvider';
 import { PingServicesProvider } from './providers/PingServicesProvider';
+import { TwitterSignalProvider } from './providers/TwitterSignalProvider';
 import { config } from '../config';
 import { logger } from '../config/logger';
 
 // ── Provider registry ─────────────────────────────────────────────────────────
 const PROVIDER_REGISTRY: IndexingProvider[] = [
   new GoogleBridgeProvider(),      // google_bridge       — System B: bridge page + Google API (best for third-party URLs)
+  new TwitterSignalProvider(),     // twitter_signal      — Google real-time firehose (<2 min discovery)
   new GoogleIndexingProvider(),    // google_indexing     — Google Indexing API direct (works only for owned domains)
   new PingDiscoveryProvider(),     // ping_discovery      — IndexNow (Bing/Yandex)
   new SitemapPingProvider(),       // sitemap_ping        — Google + Bing sitemap ping

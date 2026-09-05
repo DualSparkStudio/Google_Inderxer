@@ -26,6 +26,7 @@ function parseProviderResults(message: string | null): Array<{
 
   const PROVIDER_LABELS: Record<string, string> = {
     google_bridge: 'Google (Bridge)',
+    twitter_signal: 'Twitter / X (Real-Time Signal)',
     google_indexing: 'Google (Direct)',
     ping_discovery: 'Bing / Yandex (IndexNow)',
     sitemap_ping: 'Sitemap Ping',
@@ -35,7 +36,7 @@ function parseProviderResults(message: string | null): Array<{
   };
 
   const SUCCESS_KEYWORDS = [
-    'submitted', 'accepted', 'notified', 'pinged', 'success',
+    'submitted', 'accepted', 'notified', 'pinged', 'success', 'published',
   ];
 
   const SKIP_KEYWORDS = ['skipped', 'not configured'];
@@ -70,6 +71,7 @@ function parseProviderResults(message: string | null): Array<{
       success = true;
       // Short friendly summary
       if (key === 'google_bridge') summary = 'Submitted to Google — bridge page created';
+      else if (key === 'twitter_signal') summary = 'Tweet posted — Google real-time firehose notified';
       else if (key === 'ping_discovery') summary = 'Accepted by Bing & Yandex';
       else if (key === 'websub') {
         const m = raw.match(/(\d+)\/(\d+) accepted/);
