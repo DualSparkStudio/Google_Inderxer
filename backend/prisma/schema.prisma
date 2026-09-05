@@ -38,3 +38,16 @@ model IndexingJob {
   @@index([status])
   @@index([normalizedUrl])
 }
+
+model BridgePage {
+  id          String    @id @default(cuid())
+  jobId       String
+  targetUrl   String
+  crawled     Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  crawledAt   DateTime?
+  deleteAfter DateTime
+
+  @@index([jobId])
+  @@index([deleteAfter])
+}

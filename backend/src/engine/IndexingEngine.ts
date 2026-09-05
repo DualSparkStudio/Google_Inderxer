@@ -15,6 +15,7 @@
 
 import { IndexingProvider, IndexingResult } from './types';
 import { GoogleIndexingProvider } from './providers/GoogleIndexingProvider';
+import { GoogleBridgeProvider } from './providers/GoogleBridgeProvider';
 import { PingDiscoveryProvider } from './providers/PingDiscoveryProvider';
 import { SitemapPingProvider } from './providers/SitemapPingProvider';
 import { BingUrlSubmissionProvider } from './providers/BingUrlSubmissionProvider';
@@ -24,15 +25,14 @@ import { config } from '../config';
 import { logger } from '../config/logger';
 
 // ── Provider registry ─────────────────────────────────────────────────────────
-// Order matters — providers run in this sequence.
-// Enable/disable via INDEXING_PROVIDERS in .env
 const PROVIDER_REGISTRY: IndexingProvider[] = [
-  new GoogleIndexingProvider(),    // google_indexing   — Google Indexing API (needs service account)
-  new PingDiscoveryProvider(),     // ping_discovery    — IndexNow (Bing/Yandex)
-  new SitemapPingProvider(),       // sitemap_ping      — Google + Bing sitemap ping endpoints
-  new BingUrlSubmissionProvider(), // bing_url_submission — Bing Webmaster API (needs API key)
-  new WebSubProvider(),            // websub            — PubSubHubbub hubs (Google subscribes)
-  new PingServicesProvider(),      // ping_services     — 20+ ping services (XML-RPC + REST)
+  new GoogleBridgeProvider(),      // google_bridge       — System B: bridge page + Google API (best for third-party URLs)
+  new GoogleIndexingProvider(),    // google_indexing     — Google Indexing API direct (works only for owned domains)
+  new PingDiscoveryProvider(),     // ping_discovery      — IndexNow (Bing/Yandex)
+  new SitemapPingProvider(),       // sitemap_ping        — Google + Bing sitemap ping
+  new BingUrlSubmissionProvider(), // bing_url_submission — Bing Webmaster API
+  new WebSubProvider(),            // websub              — PubSubHubbub hubs
+  new PingServicesProvider(),      // ping_services       — 20+ ping services
 ];
 
 class IndexingEngine {

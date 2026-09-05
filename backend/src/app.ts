@@ -10,6 +10,7 @@ import { errorHandler } from './middleware/errorHandler';
 import { authRouter } from './routes/auth';
 import { urlsRouter } from './routes/urls';
 import { healthRouter } from './routes/health';
+import { bridgeRouter } from './routes/bridge';
 
 export function createApp(): express.Application {
   const app = express();
@@ -41,6 +42,7 @@ export function createApp(): express.Application {
   app.use('/api/health', healthRouter);
   app.use('/api/auth', authRouter);
   app.use('/api/urls', urlsRouter);
+  app.use('/bridge', bridgeRouter); // Bridge pages for Google crawling (no auth)
 
   // ── 404 handler ───────────────────────────────────────────────────────────
   app.use((_req, res) => {

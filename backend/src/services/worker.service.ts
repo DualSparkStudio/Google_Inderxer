@@ -21,6 +21,7 @@
 import { prisma } from '../config/prisma';
 import { validationService } from './validation.service';
 import { indexingEngine } from '../engine/IndexingEngine';
+import { bridgeService } from './bridge.service';
 import { logger } from '../config/logger';
 
 const POLL_INTERVAL_MS = 2_000; // check for pending jobs every 2 seconds
@@ -46,6 +47,8 @@ class WorkerService {
     this.running = true;
     this.timer = setInterval(() => {
       this.drain();
+      // Clean up expired bridge pages every poll cycle
+      bridgeService.deleteExpired().catch(() => {});
     }, POLL_INTERVAL_MS);
     logger.info('Worker: started', { pollIntervalMs: POLL_INTERVAL_MS });
   }
