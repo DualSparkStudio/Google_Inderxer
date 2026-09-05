@@ -227,25 +227,7 @@ export default function SubmitUrlPage() {
                   ))}
                 </div>
 
-                {/* Inactive providers — collapsed by default */}
-                {providerResults.filter((r) => !r.success).length > 0 && (
-                  <details className="mt-3">
-                    <summary className="cursor-pointer text-xs text-gray-400 hover:text-gray-600 select-none">
-                      {providerResults.filter((r) => !r.success).length} channels not active — details
-                    </summary>
-                    <div className="mt-2 space-y-1.5">
-                      {providerResults.filter((r) => !r.success).map((r) => (
-                        <div key={r.name} className="flex items-center justify-between px-3 py-1.5 text-sm">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-gray-300 flex-shrink-0" />
-                            <span className="text-gray-400">{r.name}</span>
-                          </div>
-                          <span className="text-xs text-gray-400">{r.summary}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </details>
-                )}
+                {/* Inactive providers — removed from UI */}
               </div>
             )}
 
