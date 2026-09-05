@@ -45,7 +45,7 @@ function parseProviderResults(message: string | null): Array<{
   const parts = message.split(/\s*\|\s*(?=\[)/);
 
   return parts.map((part) => {
-    const match = part.match(/\[([^\]]+)\]\s*(.*)/s);
+    const match = part.match(/\[([^\]]+)\]\s*([\s\S]*)/);
     if (!match) return null;
 
     const key = match[1].trim();
