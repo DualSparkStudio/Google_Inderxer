@@ -11,6 +11,7 @@ import { authRouter } from './routes/auth';
 import { urlsRouter } from './routes/urls';
 import { healthRouter } from './routes/health';
 import { bridgeRouter } from './routes/bridge';
+import { rssRouter } from './routes/rss';
 
 export function createApp(): express.Application {
   const app = express();
@@ -46,6 +47,7 @@ export function createApp(): express.Application {
   app.use('/api/auth', authRouter);
   app.use('/api/urls', urlsRouter);
   app.use('/bridge', bridgeRouter); // Bridge pages for Google crawling (no auth)
+  app.use('/', rssRouter);          // Dynamic RSS/Atom feed (/rss.xml and /feed.xml)
 
   // ── Root route — Google Search Console verification for index subdomain ───
   app.get('/', (_req, res) => {
@@ -55,6 +57,7 @@ export function createApp(): express.Application {
 <head>
   <meta charset="UTF-8">
   <meta name="google-site-verification" content="plHz5KQ-pN7BmWuMnXGhYYj5Fe7Ev8rNZcF6srgYgtg">
+  <link rel="alternate" type="application/rss+xml" title="Discovery RSS Feed" href="/rss.xml">
   <title>URL Indexer</title>
 </head>
 <body><p>URL Indexer Service</p></body>
