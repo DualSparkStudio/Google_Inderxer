@@ -15,6 +15,20 @@ import { logger } from '../config/logger';
 
 export const bridgeRouter = Router();
 
+// Google Search Console domain verification
+bridgeRouter.get('/', (_req: Request, res: Response): void => {
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.status(200).send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-site-verification" content="VOsCR2OanRtdaCTSeC7dCdxlF6VuS3hMPqj02VzDVBY">
+  <title>URL Indexer Bridge</title>
+</head>
+<body><p>URL Indexer Bridge Service</p></body>
+</html>`);
+});
+
 bridgeRouter.get('/:id', async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
 

@@ -82,6 +82,7 @@ export const bridgeService = {
 <head>
   <meta charset="UTF-8">
   <meta name="robots" content="index,follow">
+  <meta name="google-site-verification" content="VOsCR2OanRtdaCTSeC7dCdxlF6VuS3hMPqj02VzDVBY">
   <title>Page Discovery</title>
   <link rel="canonical" href="${escaped}">
 </head>
