@@ -61,6 +61,12 @@ export function createApp(): express.Application {
 </html>`);
   });
 
+  // ── Robots.txt — allow Googlebot and all search engine crawlers ────────────
+  app.get('/robots.txt', (_req, res) => {
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.status(200).send('User-agent: *\nAllow: /\n');
+  });
+
   // ── Test page — used to verify the tool works ─────────────────────────────
   app.get('/test-indexing', (_req, res) => {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
