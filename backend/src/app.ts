@@ -58,6 +58,25 @@ export function createApp(): express.Application {
 </html>`);
   });
 
+  // ── Test page — used to verify the tool works ─────────────────────────────
+  app.get('/test-indexing', (_req, res) => {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-site-verification" content="plHz5KQ-pN7BmWuMnXGhYYj5Fe7Ev8rNZcF6srgYgtg">
+  <title>URL Indexer — Test Page</title>
+  <meta name="description" content="This page was created to test the URL Indexer discovery tool.">
+</head>
+<body>
+  <h1>URL Indexer Test Page</h1>
+  <p>This page was created on ${new Date().toISOString()} to verify that the URL Indexer tool successfully signals Google to discover and index new pages.</p>
+  <p>If you can find this page in Google search results, the tool is working.</p>
+</body>
+</html>`);
+  });
+
   // ── 404 handler ───────────────────────────────────────────────────────────
   app.use((_req, res) => {
     res.status(404).json({ success: false, error: 'Route not found.' });
