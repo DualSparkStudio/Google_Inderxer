@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+*.db
+*.db-journal
+prisma/migrations/
+google-service-account.json
+*-service-account.json

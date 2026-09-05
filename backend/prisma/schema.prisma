@@ -1,0 +1,40 @@
+// Prisma schema — SQLite for local dev, swap DATABASE_URL for PostgreSQL on deploy
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  jobs         IndexingJob[]
+}
+
+model IndexingJob {
+  id               String    @id @default(cuid())
+  userId           String
+  url              String
+  normalizedUrl    String
+  status           String    @default("QUEUED")
+  provider         String?
+  validationResult String?   // JSON string
+  resultMessage    String?
+  metadata         String?   // JSON string
+  createdAt        DateTime  @default(now())
+  startedAt        DateTime?
+  completedAt      DateTime?
+  updatedAt        DateTime  @updatedAt
+  user             User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@index([normalizedUrl])
+}
