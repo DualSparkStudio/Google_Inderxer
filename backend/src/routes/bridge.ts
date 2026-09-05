@@ -39,22 +39,34 @@ bridgeRouter.get('/:id', async (req: Request, res: Response): Promise<void> => {
     return;
   }
 
-  // Detect Googlebot by User-Agent and mark as crawled
+  // Detect Googlebot or other search engine crawlers by User-Agent
   const ua = req.headers['user-agent'] ?? '';
   const isGooglebot = /googlebot|google-inspectiontool|google/i.test(ua);
+  const isCrawler = /googlebot|google-inspectiontool|google|bingbot|yandex|duckduckbot|slurp|baiduspider/i.test(ua);
 
-  if (isGooglebot && !page.crawled) {
-    logger.info('Bridge: Googlebot crawled page', {
+  if (!page.crawled) {
+    logger.info('Bridge: Page visited by crawler/client', {
       id,
       targetUrl: page.targetUrl,
+      isGooglebot,
+      isCrawler,
       userAgent: ua,
     });
-    bridgeService.markCrawled(id as string).catch(() => {});
+    bridgeService.markCrawled(id as string).catch((err) => {
+      logger.error('Bridge: Failed to mark page as crawled', { id, error: err?.message });
+    });
   }
 
-  const html = bridgeService.buildHtml(page.targetUrl, id as string);
+  // Fast-Redirect: HTTP 302 Found (or 301) tells Googlebot to immediately fetch targetUrl in the same pass
+  const redirectStatus = process.env['BRIDGE_REDIRECT_STATUS'] === '301' ? 301 : 302;
 
-  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+  res.setHeader('Location', page.targetUrl);
+  res.setHeader('Link', `<${page.targetUrl}>; rel="canonical"`);
   res.setHeader('X-Robots-Tag', 'index, follow');
-  res.status(200).send(html);
+  res.setHeader('Refresh', `0; url=${page.targetUrl}`);
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Content-Type', 'text/html; charset=utf-8');
+
+  const html = bridgeService.buildHtml(page.targetUrl, id as string);
+  res.status(redirectStatus).send(html);
 });

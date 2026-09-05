@@ -73,21 +73,25 @@ export const bridgeService = {
 
   /**
    * Build the HTML content for a bridge page.
-   * Minimal, clean HTML that Googlebot can crawl easily.
+   * Minimal, fast-redirecting HTML with canonical tag, meta-refresh, and anchor link
+   * ensuring Googlebot and headless renderers follow to the target URL instantly.
    */
   buildHtml(targetUrl: string, bridgeId: string): string {
     const escaped = targetUrl.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const jsEscaped = JSON.stringify(targetUrl);
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="robots" content="index,follow">
+  <meta http-equiv="refresh" content="0;url=${escaped}">
   <meta name="google-site-verification" content="plHz5KQ-pN7BmWuMnXGhYYj5Fe7Ev8rNZcF6srgYgtg">
-  <title>Page Discovery</title>
+  <title>Redirecting...</title>
   <link rel="canonical" href="${escaped}">
+  <script>window.location.replace(${jsEscaped});</script>
 </head>
 <body>
-  <p>Discovering: <a href="${escaped}" rel="follow">${escaped}</a></p>
+  <p>Redirecting to <a href="${escaped}" rel="follow">${escaped}</a>...</p>
   <!-- bridge:${bridgeId} -->
 </body>
 </html>`;
