@@ -22,7 +22,7 @@ bridgeRouter.get('/', (_req: Request, res: Response): void => {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="google-site-verification" content="VOsCR2OanRtdaCTSeC7dCdxlF6VuS3hMPqj02VzDVBY">
+  <meta name="google-site-verification" content="plHz5KQ-pN7BmWuMnXGhYYj5Fe7Ev8rNZcF6srgYgtg">
   <title>URL Indexer Bridge</title>
 </head>
 <body><p>URL Indexer Bridge Service</p></body>

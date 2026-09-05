@@ -51,7 +51,7 @@ export function createApp(): express.Application {
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="google-site-verification" content="VOsCR2OanRtdaCTSeC7dCdxlF6VuS3hMPqj02VzDVBY">
+  <meta name="google-site-verification" content="plHz5KQ-pN7BmWuMnXGhYYj5Fe7Ev8rNZcF6srgYgtg">
   <title>URL Indexer</title>
 </head>
 <body><p>URL Indexer Service</p></body>
