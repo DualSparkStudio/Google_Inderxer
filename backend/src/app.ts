@@ -44,6 +44,20 @@ export function createApp(): express.Application {
   app.use('/api/urls', urlsRouter);
   app.use('/bridge', bridgeRouter); // Bridge pages for Google crawling (no auth)
 
+  // ── Root route — Google Search Console verification for index subdomain ───
+  app.get('/', (_req, res) => {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(200).send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="google-site-verification" content="VOsCR2OanRtdaCTSeC7dCdxlF6VuS3hMPqj02VzDVBY">
+  <title>URL Indexer</title>
+</head>
+<body><p>URL Indexer Service</p></body>
+</html>`);
+  });
+
   // ── 404 handler ───────────────────────────────────────────────────────────
   app.use((_req, res) => {
     res.status(404).json({ success: false, error: 'Route not found.' });
