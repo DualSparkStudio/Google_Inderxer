@@ -15,6 +15,9 @@ import { bridgeRouter } from './routes/bridge';
 export function createApp(): express.Application {
   const app = express();
 
+  // Trust Render reverse proxy for accurate IP resolution in rate limiting
+  app.set('trust proxy', 1);
+
   // ── Security headers ──────────────────────────────────────────────────────
   app.use(helmet());
 
