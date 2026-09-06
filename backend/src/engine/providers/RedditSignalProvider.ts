@@ -116,7 +116,24 @@ export class RedditSignalProvider implements IndexingProvider {
       const userAgent = `web:com.urlindexer.discovery:v1.0.0 (by /u/${username})`;
 
       const cleanSub = subreddit.replace(/^r\//, '');
-      const postTitle = `Discovery update: ${url}`;
+      let postTitle = `Discovery: ${url}`;
+
+      try {
+        const pageResp = await fetch(url, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (compatible; URLIndexer/1.0)' },
+          timeout: 4_000,
+        } as any);
+        if (pageResp.ok) {
+          const html = await pageResp.text();
+          const match = html.match(/<title[^>]*>([^<]+)<\/title>/i);
+          if (match && match[1]?.trim()) {
+            // Clean title and ensure within Reddit length limits
+            postTitle = match[1].trim().replace(/\s+/g, ' ').slice(0, 250);
+          }
+        }
+      } catch {
+        // Fallback to postTitle if target site is slow
+      }
 
       const submitParams = new URLSearchParams({
         sr: cleanSub,
